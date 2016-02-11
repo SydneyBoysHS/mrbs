@@ -139,16 +139,11 @@ if (NULL !== ($datepicker_lang_file = get_datepicker_lang_file('jquery/ui/i18n')
   // All pages
   require 'js/functions.js.inc';
   require 'js/datepicker.js.inc';
+  require 'js/general.js.inc';
   ?>
   //]]>
 </script>
 
-<?php
-// All pages
-?>
-
-
-<script type="text/javascript" src="js/general.js.php?<?php echo $standard_query_string ?>"></script>
 
     
 <?php

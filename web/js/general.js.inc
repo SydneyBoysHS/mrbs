@@ -2,18 +2,6 @@
 
 // $Id$
 
-require "../defaultincludes.inc";
-
-header("Content-type: application/x-javascript");
-expires_header(60*30); // 30 minute expiry
-
-if ($use_strict)
-{
-  echo "'use strict';\n";
-}
-
-global $autocomplete_length_breaks;
-
 
 // Function to determine whether the browser supports the HTML5
 // <datalist> element.
@@ -296,3 +284,4 @@ init = function(args) {
     .trigger('scroll');
     
 };
+
