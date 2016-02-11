@@ -2,17 +2,6 @@
 
 // $Id$
 
-require "../defaultincludes.inc";
-
-header("Content-type: application/x-javascript");
-expires_header(60*30); // 30 minute expiry
-
-if ($use_strict)
-{
-  echo "'use strict';\n";
-}
-
-
 // Get the types, which are assumed to be in a data-type in a <span> in the <th>
 // of the table
 ?>
@@ -107,7 +96,7 @@ function makeDataTable(id, specificOptions, fixedColumnsOptions)
     
     <?php
     // Set the language file to be used
-    if ($lang_file = get_datatable_lang_file('../jquery/datatables/language'))
+    if ($lang_file = get_datatable_lang_file('jquery/datatables/language'))
     {
       // If using the language.url way of loading a DataTables language file,
       // then the file must be valid JSON.   The .lang files that can be 
@@ -211,3 +200,4 @@ function makeDataTable(id, specificOptions, fixedColumnsOptions)
     return dataTable;
   }
 }
+

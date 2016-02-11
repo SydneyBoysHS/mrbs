@@ -140,6 +140,13 @@ if (NULL !== ($datepicker_lang_file = get_datepicker_lang_file('jquery/ui/i18n')
   require 'js/functions.js.inc';
   require 'js/datepicker.js.inc';
   require 'js/general.js.inc';
+  
+  // Those pages that use DataTables
+  if (in_array($page, array('admin', 'edit_users', 'pending', 'report', 'search')))
+  {
+    require 'js/datatables.js.inc';
+  }
+  
   ?>
   //]]>
 </script>
@@ -174,8 +181,6 @@ if (in_array($page, array('admin', 'edit_users', 'pending', 'report', 'search'))
   ?>
   
   <script type="text/javascript" src="jquery/datatables/js/plugins.js"></script>
-      
-  <script type="text/javascript" src="js/datatables.js.php?<?php echo $standard_query_string ?>"></script>
 
   <?php
 }
