@@ -5,7 +5,7 @@
 
 // We need to construct a standard query string that can be passed to the *.js.php
 // pages.  That's because some of the settings they use are area dependent.
-// We also want the area to be in the queey string so that the JavaScript page is
+// We also want the area to be in the query string so that the JavaScript page is
 // cached if the area is the same and not otherwise.
 $standard_query_string = "area=$area";
   
