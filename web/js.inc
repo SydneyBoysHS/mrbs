@@ -2,6 +2,8 @@
 
 // $Id$
 
+global $use_strict;
+
 
 // We need to construct a standard query string that can be passed to the *.js.php
 // pages.  That's because some of the settings they use are area dependent.
@@ -122,17 +124,28 @@ if (NULL !== ($datepicker_lang_file = get_datepicker_lang_file('jquery/ui/i18n')
   <?php
   // Create an empty init() function.   This will get "extended" if necessary
   // by the page specific JavaScript files in the js directory
+  
+  if ($use_strict)
+  {
+    echo "'use strict';\n";
+  }
+  
   ?>
   function init(params)
   {
   }
+  
+  <?php
+  // All pages
+  require 'js/functions.js.inc';
+  ?>
   //]]>
 </script>
 
 <?php
 // All pages
 ?>
-<script type="text/javascript" src="js/functions.js.php?<?php echo $standard_query_string ?>"></script>
+
 <script type="text/javascript" src="js/datepicker.js.php?<?php echo $standard_query_string ?>"></script>
 <script type="text/javascript" src="js/general.js.php?<?php echo $standard_query_string ?>"></script>
 

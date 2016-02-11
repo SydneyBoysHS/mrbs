@@ -2,16 +2,6 @@
 
 // $Id$
 
-require "../defaultincludes.inc";
-
-header("Content-type: application/x-javascript");
-expires_header(60*30); // 30 minute expiry
-
-if ($use_strict)
-{
-  echo "'use strict';\n";
-}
-
 ?>
 
 $.fn.reverse = [].reverse;
