@@ -355,7 +355,11 @@ table.dwm_main {
 .dwm_main#month_main td.invalid {background-color: <?php echo $main_table_month_invalid_color ?>}
 .dwm_main#month_main a {height: 100%; width: 100%; padding: 0 2px 0 2px}
 
-td.new a, a.new_booking {display: block; font-size: medium; text-align: center}
+td.new a, a.new_booking {
+  display: block;
+  text-align: center;
+}
+
 td.new img, .new_booking img {margin: auto; padding: 4px 0 2px 0}
 img.repeat_symbol {float: right; padding: 3px}
 .dwm_main#month_main img.repeat_symbol {padding: 2px}

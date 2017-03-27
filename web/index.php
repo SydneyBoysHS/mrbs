@@ -132,7 +132,7 @@ function get_row_labels_table($map)
   $html .= "<tbody>\n";
   foreach ($map as $room_id => $row)
   {
-    $html.= "<tr><td>$room_id</td></tr>\n";
+    $html.= "<tr><td><a href=\"\">$room_id</a></td></tr>\n";
   }
   $html .= "</tbody>\n";
   
@@ -181,8 +181,9 @@ function get_row_data_table($map)
         }
         else
         {
-          // This is an empty slot
-          $content = "<a href=\"\"></a>\n";  // JUST FOR NOW - TO DO
+          // This is an empty slot.  We need the non-breaking space to give the
+          // cell height.
+          $content = "<a href=\"\">&nbsp;</a>\n";  // JUST FOR NOW - TO DO
           $html .= get_cell_html($content, 'new');
         }
       }
