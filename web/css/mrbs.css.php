@@ -1424,6 +1424,15 @@ div#check_tabs {background-image: none}
   width: 100%;
 }
 
+.main_view_data {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.main_view td {
+  overflow: hidden;
+}
+
 .main_view a {
   display: block;
   width: 100%;

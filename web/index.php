@@ -119,16 +119,51 @@ function get_cell_html($content, $class, $n_slots=1)
 }
 
 
-function get_table($map)
+function get_row_labels_table($map)
 {
   $html = '';
   
-  $html .= "<table class=\"main_view\">\n";
+  $html .= "<table class=\"main_view_labels\">\n";
+  
+  $html .= "<thead>\n";
+  $html .= "<tr><th></th></tr>\n";
+  $html .= "</thead>\n";
+  
+  $html .= "<tbody>\n";
+  foreach ($map as $room_id => $row)
+  {
+    $html.= "<tr><td>$room_id</td></tr>\n";
+  }
+  $html .= "</tbody>\n";
+  
+  $html .= "</table>\n";
+  
+  return $html;
+}
+
+
+function get_row_data_table($map)
+{
+  $html = '';
+  
+  $html .= "<table class=\"main_view_data\">\n";
+
+  $html .= "<thead>\n";
+  $html .= "<tr>\n";
+  $n_cols = count(current($map));
+  $column_width = number_format(100/$n_cols, 6);
+  for ($i=0; $i<$n_cols; $i++)
+  {
+    $html .= "<th style=\"max-width: $column_width%\"></th>\n";
+  }
+  $html .= "</tr>\n";  
+  $html .= "</thead>\n";
+  
+  $html .= "<tbody>\n";
   
   foreach ($map as $room_id => $row)
   {
     $html .= "<tr>\n";
-    $html .= "<td>$room_id</td>\n";
     $last_id = null;
     
     while (($data = current($row)) !== false)
@@ -140,6 +175,7 @@ function get_table($map)
           // The booking has come to an end, so write it out
           $last_id = null;
           $html .= get_cell_html($content, $type, $n_slots);
+          prev($row);
         }
         else
         {
@@ -180,10 +216,19 @@ function get_table($map)
         trigger_error("To do");
       }
       $data = next($row);
-      if (($data === false) && isset($last_id))
+      if ($data === false)
       {
         // We're at the end of the row and there's a booking to write out
-        $html .= get_cell_html($content, $type, $n_slots);
+        if (isset($last_id))
+        {
+          $html .= get_cell_html($content, $type, $n_slots);
+        }
+        else
+        {
+          // This is an empty slot
+          $content = "<a href=\"\"></a>\n";  // JUST FOR NOW - TO DO
+          //$html .= get_cell_html($content, 'new');
+        }
         break;
       }
     }
@@ -191,6 +236,22 @@ function get_table($map)
     $html .= "</tr>\n";
   }
   
+  $html .= "</tbody>\n";
+  
+  $html .= "</table>\n";
+  
+  return $html;
+}
+
+function get_table($map)
+{
+  $html = '';
+  
+  $html .= "<table class=\"main_view\">\n";
+  $html .= "<tr>\n";
+  $html .= "<td>" . get_row_labels_table($map) . "</td>\n";
+  $html .= "<td>" . get_row_data_table($map) . " </td>\n";
+  $html .= "</tr>\n";
   $html .= "</table>\n";
   
   return $html;
