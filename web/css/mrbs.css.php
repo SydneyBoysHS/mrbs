@@ -1426,6 +1426,11 @@ div#check_tabs {background-image: none}
 
 .main_view {
   width: 100%;
+  border-collapse: collapse;
+}
+
+.main_view table {
+  border-collapse: collapse;
 }
 
 .main_view_data {
@@ -1433,13 +1438,26 @@ div#check_tabs {background-image: none}
   table-layout: fixed;
 }
 
+.main_view_data tr:nth-child(even) td.new {
+  background-color: <?php echo $row_even_color ?>;
+}
+
+.main_view_data tr:nth-child(odd) td.new {
+  background-color: <?php echo $row_odd_color ?>;
+}
+
 .main_view td {
   overflow: hidden;
+}
+
+.main_view table td {
+  border-top: 1px solid transparent;
 }
 
 .main_view a {
   display: block;
   width: 100%;
   white-space: nowrap;
+  padding: 0.1em;
 }
 
