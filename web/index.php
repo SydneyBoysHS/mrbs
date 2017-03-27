@@ -101,6 +101,21 @@ function get_map($area, $entries, $interval)
 }
 
 
+function get_cell_html($content, $class, $n_slots=1)
+{
+  $html = '';
+  
+  $html .= "<td class=\"$class\"";
+  if ($n_slots > 1)
+  {
+    $html .= " colspan=\"$n_slots\"";
+  }
+  $html .= ">$content</td>\n";
+  
+  return $html;
+}
+
+
 function get_table($map)
 {
   $html = '';
@@ -111,18 +126,59 @@ function get_table($map)
   {
     $html .= "<tr>\n";
     $html .= "<td>$room_id</td>\n";
-    foreach ($row as $data)
+    $last_id = null;
+    
+    while (($data = current($row)) !== false)
     {
-      $html .= "<td>";
-      if (count($data) == 1)
+      if (count($data) == 0)
       {
-        $html .= $data[0];
+        if (isset($last_id))
+        {
+          // The booking has come to an end, so write it out
+          $last_id = null;
+          $html .= get_cell_html($this_id, 'booked', $n_slots);
+        }
+        else
+        {
+          // This is an empty slot
+          $html .= get_cell_html('', 'new');
+        }
       }
-      elseif (count($data) > 1)
+      elseif (count($data) == 1)
       {
+        $this_id = $data[0];
+        if (!isset($last_id))
+        {
+          // Start of a new booking
+          $last_id = $this_id;
+          $n_slots = 1;
+        }
+        elseif ($this_id == $last_id)
+        {
+          // Still in the same booking
+          $n_slots++;
+        }
+        else
+        {
+          // The booking has come to an end, so write it out
+          $last_id = null;
+          $html .= get_cell_html($this_id, 'booked', $n_slots);
+          prev($row);
+        }
+      }
+      else
+      {
+        // This can happen if you get two bookings in the same slot,
+        // which will happen if the resolution is changed or the slots are shifted
         trigger_error("To do");
       }
-      $html .= "</td>\n";
+      $data = next($row);
+      if (($data === false) && isset($last_id))
+      {
+        // We're at the end of the row and there's a booking to write out
+        $html .= get_cell_html($this_id, 'booked', $n_slots);
+        break;
+      }
     }
     
     $html .= "</tr>\n";
