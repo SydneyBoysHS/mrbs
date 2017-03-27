@@ -202,4 +202,8 @@ $view = 'week';
 $interval = get_interval($view, $month, $day, $year);
 $entries = get_entries_by_area($area, $interval['start'], $interval['end']);
 $map = get_map($area, $entries, $interval);
+
+// print the page header
+print_header($day, $month, $year, $area, isset($room) ? $room : null);
 echo get_table($map);
+output_trailer();
