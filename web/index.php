@@ -87,7 +87,9 @@ function get_map($area, $entries, $interval)
         // and then find the remaining occupied slots
         do {
           $map[$room_id][$slot][] = array('id' => $entry['id'],
-                                          'type' => $entry['type']);
+                                          'type' => $entry['type'],
+                                          'name' => $entry['name'],
+                                          'description' => $entry['description']);
           $slot = next($slots);
         } while (($slot !== false) && ($entry['end_time'] > ($slot + $resolution)));
         reset($slots);
@@ -137,7 +139,7 @@ function get_table($map)
         {
           // The booking has come to an end, so write it out
           $last_id = null;
-          $html .= get_cell_html($this_id, $type, $n_slots);
+          $html .= get_cell_html($content, $type, $n_slots);
         }
         else
         {
@@ -149,6 +151,7 @@ function get_table($map)
       {
         $this_id = $data[0]['id'];
         $type = $data[0]['type'];
+        $content = htmlspecialchars($data[0]['name']);
         
         if (!isset($last_id))
         {
@@ -165,7 +168,7 @@ function get_table($map)
         {
           // The booking has come to an end, so write it out
           $last_id = null;
-          $html .= get_cell_html($this_id, $type, $n_slots);
+          $html .= get_cell_html($content, $type, $n_slots);
           prev($row);
         }
       }
@@ -179,7 +182,7 @@ function get_table($map)
       if (($data === false) && isset($last_id))
       {
         // We're at the end of the row and there's a booking to write out
-        $html .= get_cell_html($this_id, $type, $n_slots);
+        $html .= get_cell_html($content, $type, $n_slots);
         break;
       }
     }
