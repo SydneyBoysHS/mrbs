@@ -620,6 +620,25 @@ function get_end_last_slot($month, $day, $year)
 }
 
 
+// Gets an array of slot starts for a given booking day.
+function get_slot_starts($month, $day, $year)
+{
+  global $resolution, $morningstarts, $morningstarts_minutes;
+  
+  $result = array();
+  
+  $start_first_slot = get_start_first_slot($month, $day, $year);
+  $start_last_slot = get_start_last_slot($month, $day, $year);
+  
+  for ($t=$start_first_slot; $t<=$start_last_slot; $t+=$resolution)
+  {
+    $result[] = $t;
+  }
+  
+  return $result;
+}
+
+
 // Determines with a given timestamp is within a booking day, ie between the start of
 // the first slot and end of the last slot.   Returns a boolean.
 function is_in_booking_day($t)

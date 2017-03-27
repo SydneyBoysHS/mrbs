@@ -15,7 +15,8 @@ if (isset($auth['session']))
 // read features.   However if $auth['deny_public_access'] is TRUE then
 // access to the public is denied
 $page_level['day.php']                   = ($auth['deny_public_access']) ? 1 : 0;
-$page_level['help.php']                  = ($auth['deny_public_access']) ? 1 : 0;
+$page_level['index.php']                 = ($auth['deny_public_access']) ? 1 : 0;
+$page_level['week.php']                  = ($auth['deny_public_access']) ? 1 : 0;
 $page_level['month.php']                 = ($auth['deny_public_access']) ? 1 : 0;
 $page_level['week.php']                  = ($auth['deny_public_access']) ? 1 : 0;
 
