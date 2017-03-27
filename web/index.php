@@ -166,8 +166,10 @@ function get_row_data_table($map)
     $html .= "<tr>\n";
     $last_id = null;
     
+    // Cycle through the slots
     while (($data = current($row)) !== false)
     {
+      // No booking in this slot
       if (count($data) == 0)
       {
         if (isset($last_id))
@@ -184,6 +186,8 @@ function get_row_data_table($map)
           $html .= get_cell_html($content, 'new');
         }
       }
+      
+      // One booking in this slot
       elseif (count($data) == 1)
       {
         $this_id = $data[0]['id'];
@@ -209,26 +213,18 @@ function get_row_data_table($map)
           prev($row);
         }
       }
+      
+      // More than one booking in this slot.   This will happen if the resolution is changed
+      // or the slots are shifted.
       else
       {
-        // This can happen if you get two bookings in the same slot,
-        // which will happen if the resolution is changed or the slots are shifted
         trigger_error("To do");
       }
       $data = next($row);
-      if ($data === false)
+      if (($data === false) && isset($last_id))
       {
         // We're at the end of the row and there's a booking to write out
-        if (isset($last_id))
-        {
-          $html .= get_cell_html($content, $type, $n_slots);
-        }
-        else
-        {
-          // This is an empty slot
-          $content = "<a href=\"\"></a>\n";  // JUST FOR NOW - TO DO
-          //$html .= get_cell_html($content, 'new');
-        }
+        $html .= get_cell_html($content, $type, $n_slots);
         break;
       }
     }
@@ -237,7 +233,6 @@ function get_row_data_table($map)
   }
   
   $html .= "</tbody>\n";
-  
   $html .= "</table>\n";
   
   return $html;
@@ -247,6 +242,8 @@ function get_table($map)
 {
   $html = '';
   
+  // We use nested tables so that we can get set the column width exactly for
+  // the main data.
   $html .= "<table class=\"main_view\">\n";
   $html .= "<tr>\n";
   $html .= "<td>" . get_row_labels_table($map) . "</td>\n";
