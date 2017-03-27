@@ -123,7 +123,7 @@ function get_table($map)
 {
   $html = '';
   
-  $html .= "<table>\n";
+  $html .= "<table class=\"main_view\">\n";
   
   foreach ($map as $room_id => $row)
   {
@@ -144,14 +144,15 @@ function get_table($map)
         else
         {
           // This is an empty slot
-          $html .= get_cell_html('', 'new');
+          $content = "<a href=\"\"></a>\n";  // JUST FOR NOW - TO DO
+          $html .= get_cell_html($content, 'new');
         }
       }
       elseif (count($data) == 1)
       {
         $this_id = $data[0]['id'];
         $type = $data[0]['type'];
-        $content = htmlspecialchars($data[0]['name']);
+        $content = "<a href=\"\">" . htmlspecialchars($data[0]['name']) . "</a>\n"; // JUST FOR NOW - TO DO
         
         if (!isset($last_id))
         {

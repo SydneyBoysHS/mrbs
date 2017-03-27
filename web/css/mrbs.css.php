@@ -1416,3 +1416,17 @@ a.dt-button {
 div#check_tabs {background-image: none}
 .edit_entry #ui-tab-dialog-close {position:absolute; right:0; top:23px}
 .edit_entry #ui-tab-dialog-close a {float:none; padding:0}
+
+
+/* ------------- Main table ----------------------*/
+
+.main_view {
+  width: 100%;
+}
+
+.main_view a {
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+}
+
