@@ -1438,6 +1438,10 @@ div#check_tabs {background-image: none}
   table-layout: fixed;
 }
 
+.main_view_data td {
+  padding: 0;
+}
+
 .main_view_data tr:nth-child(even) td.new {
   background-color: <?php echo $row_even_color ?>;
 }
@@ -1458,7 +1462,7 @@ div#check_tabs {background-image: none}
   display: block;
   width: 100%;
   white-space: nowrap;
-  padding: 0.1em;
+  padding: 0.1em 0.2em;
 }
 
 <?php 
@@ -1470,5 +1474,12 @@ div#check_tabs {background-image: none}
   border-right: 1px solid <?php echo $body_background_color ?>;
   box-sizing: border-box;
 }
+
+.main_view_data td:last-child a {
+  border-right: 0;
+}
+
+
+
 
 
