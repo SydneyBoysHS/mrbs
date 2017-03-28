@@ -268,5 +268,7 @@ $map = get_map($area, $entries, $interval);
 
 // print the page header
 print_header($day, $month, $year, $area, isset($room) ? $room : null);
+// Show all available areas
+echo make_area_select_html('index.php', $area, $year, $month, $day);
 echo get_table($map);
 output_trailer();
