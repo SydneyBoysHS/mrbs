@@ -140,9 +140,17 @@ function get_row_labels_table($map)
   $html .= "</thead>\n";
   
   $html .= "<tbody>\n";
+  
+  
   foreach ($map as $room_id => $row)
   {
-    $html.= "<tr><td><a href=\"\">$room_id</a></td></tr>\n";
+    // The first time through get the room names
+    if (!isset($room_names))
+    {
+      $room_names = get_room_names(get_area($room_id));
+    }
+
+    $html.= "<tr><td><a href=\"\">" . htmlspecialchars($room_names[$room_id]) . "</a></td></tr>\n";
   }
   $html .= "</tbody>\n";
   
