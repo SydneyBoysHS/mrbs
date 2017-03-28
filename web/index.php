@@ -91,7 +91,7 @@ function get_map($area, $entries, $interval)
                                           'name' => $entry['name'],
                                           'description' => $entry['description']);
           $slot = next($slots);
-        } while (($slot !== false) && ($entry['end_time'] > ($slot + $resolution)));
+        } while (($slot !== false) && ($entry['end_time'] > $slot));
         reset($slots);
         break;
       }
@@ -192,13 +192,12 @@ function get_row_data_table($map)
       elseif (count($data) == 1)
       {
         $this_id = $data[0]['id'];
-        $type = $data[0]['type'];
-        $content = "<a href=\"\">" . htmlspecialchars($data[0]['name']) . "</a>\n"; // JUST FOR NOW - TO DO
-        
         if (!isset($last_id))
         {
           // Start of a new booking
           $last_id = $this_id;
+          $type = $data[0]['type'];
+          $content = "<a href=\"\">" . htmlspecialchars($data[0]['name']) . "</a>\n"; // JUST FOR NOW - TO DO
           $n_slots = 1;
         }
         elseif ($this_id == $last_id)
