@@ -315,7 +315,7 @@ print_header($day, $month, $year, $area, isset($room) ? $room : null);
 echo "<div id=\"dwm_header\" class=\"screenonly\">\n";
 
 // Show all available areas
-echo make_area_select_html('day.php', $area, $year, $month, $day);
+echo make_area_select_html('index.php', $area, $year, $month, $day);
 
 // Draw the three month calendars
 if (!$display_calendar_bottom)
