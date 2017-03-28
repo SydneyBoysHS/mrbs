@@ -1461,3 +1461,14 @@ div#check_tabs {background-image: none}
   padding: 0.1em;
 }
 
+<?php 
+// Put the border on the right hand side so that the view
+// isn't filled with borders when the slots are very narrow,
+// eg in the month view
+?>
+.main_view_data a {
+  border-right: 1px solid <?php echo $body_background_color ?>;
+  box-sizing: border-box;
+}
+
+
