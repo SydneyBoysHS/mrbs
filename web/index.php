@@ -14,11 +14,21 @@ function get_interval($view, $month, $day, $year)
   
   switch ($view)
   {
+    case 'day':
+      $result['start'] = get_start_first_slot($month, $day, $year);
+      $result['end'] = get_end_last_slot($month, $day, $year);
+      break;
+      
     case 'week':
       $day_of_week = date('w', mktime(12, 0, 0, $month, $day, $year));
       $days_after_start_of_week = ($day_of_week + DAYS_PER_WEEK - $weekstarts) % 7;
       $result['start'] = get_start_first_slot($month, $day - $days_after_start_of_week, $year);
       $result['end'] = get_end_last_slot($month, $day + (DAYS_PER_WEEK - 1) - $days_after_start_of_week, $year);
+      break;
+      
+    case 'month':
+      $result['start'] = get_start_first_slot($month, 1, $year);
+      $result['end'] = get_end_last_slot($month + 1, 0, $year);
       break;
       
     default:
@@ -260,7 +270,7 @@ if (!checkAuthorised())
   exit;
 }
 
-$view = 'week';
+$view = 'day';
 $interval = get_interval($view, $month, $day, $year);
 $entries = get_entries_by_area($area, $interval['start'], $interval['end']);
 $map = get_map($area, $entries, $interval);
