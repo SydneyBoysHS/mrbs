@@ -1433,13 +1433,13 @@ div#check_tabs {background-image: none}
   border-collapse: collapse;
 }
 
+.main_view table td {
+  padding: 0;
+}
+
 .main_view_data {
   width: 100%;
   table-layout: fixed;
-}
-
-.main_view_data td {
-  padding: 0;
 }
 
 .main_view_data tr:nth-child(even) td.new {
