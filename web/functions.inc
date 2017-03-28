@@ -1754,6 +1754,44 @@ function genDateSelector($prefix, $day, $month, $year, $form_id='', $disabled=FA
 }
 
 
+// Generates a single button.  Parameters in the array $params
+//
+//    Manadatory parameters
+//      action    The form action attribute
+//      value     The value of the button
+//      inputs    An array of hidden form inputs
+//
+//    Optional parameters
+//      button_attributes   An array of attributes to be used for the button.
+function generate_button(array $params, array $button_attributes=array())
+{
+  // Note that until IE supports the form attribute on the button tag, we can't
+  // use a <button> here and have to use the <input type="submit"> to create the
+  // button.   This unfortunately means that styling options on the button are limited.
+  
+  $html = '';
+
+  $html .= "<form method=\"post\" action=\"" . htmlspecialchars($params['action']) . "\">\n";
+
+  foreach ($params['inputs'] as $key => $value)
+  {
+    $html .= '<input type="hidden" name="' . htmlspecialchars($key) . '"' .
+             ' value="' . htmlspecialchars($value) . "\">\n";
+  }
+  
+  $html .= '<input type="submit" value="' . htmlspecialchars($params['value']) . '"';
+  foreach($button_attributes as $key => $value)
+  {
+    $html .= " $key=\"" . htmlspecialchars($value) . '"';
+  }
+  $html .= ">\n";
+  
+  $html .= "</form>\n"; 
+  
+  echo $html;
+}
+
+
 // Escape a PHP string for use in JavaScript
 //
 // Based on a function contributed by kongaspar at gmail dot com at 

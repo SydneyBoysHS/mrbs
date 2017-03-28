@@ -4,6 +4,31 @@ namespace MRBS;
 require "defaultincludes.inc";
 
 
+function print_view_nav()
+{
+  global $area, $year, $month, $day;
+  
+  echo "<nav class=\"view\">\n";
+  
+  $views = array('day', 'week', 'month');
+  
+  foreach ($views as $view)
+  {
+    $params = array('action' => this_page(),
+                    'value'  => $view,
+                    'inputs' => array('view' => $view,
+                                      'area' => $area,
+                                      'year' => $year,
+                                      'month' => $month,
+                                      'day' => $day)
+                   );
+    generate_button($params);
+  }
+ 
+  echo "</nav>\n";
+}
+
+
 // Gets the booking interval (start first slot to end last slot)
 // for a given view.   Returns an array indexed by 'start' and 'end'.
 function get_interval($view, $month, $day, $year)
@@ -278,7 +303,7 @@ if (!checkAuthorised())
   exit;
 }
 
-$view = 'day';
+$view = get_form_var('view', 'string', $default_view);
 $interval = get_interval($view, $month, $day, $year);
 $entries = get_entries_by_area($area, $interval['start'], $interval['end']);
 $map = get_map($area, $entries, $interval);
@@ -287,5 +312,6 @@ $map = get_map($area, $entries, $interval);
 print_header($day, $month, $year, $area, isset($room) ? $room : null);
 // Show all available areas
 echo make_area_select_html('index.php', $area, $year, $month, $day);
+print_view_nav();
 echo get_table($map);
 output_trailer();

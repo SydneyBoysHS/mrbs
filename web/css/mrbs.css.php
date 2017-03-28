@@ -1479,7 +1479,17 @@ div#check_tabs {background-image: none}
   border-right: 0;
 }
 
+nav.view {
+  display: table;
+  margin-top: 2em;
+}
 
+nav.view form {
+  display: table-cell;
+  width: 33.333%;
+  padding: 0 0.5em;
+}
 
-
-
+nav.view input {
+  width: 100%;
+}
