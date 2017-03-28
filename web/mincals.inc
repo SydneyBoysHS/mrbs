@@ -250,7 +250,8 @@ class Calendar
     // Sanitize the date: the day may be negative
     $date = getdate(mktime(12, 0, 0, $month, $day, $year));
     
-    $result = "$page.php?" .
+    $result = "index.php?" .
+              "view=$page&amp;" .
               "year="  . $date['year'] . "&amp;" .
               "month=" . $date['mon']  . "&amp;" .
               "day="   . $date['mday'] . "&amp;" .

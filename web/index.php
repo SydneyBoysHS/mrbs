@@ -2,6 +2,7 @@
 namespace MRBS;
 
 require "defaultincludes.inc";
+require_once "mincals.inc";
 
 
 function print_view_nav()
@@ -310,8 +311,18 @@ $map = get_map($area, $entries, $interval);
 
 // print the page header
 print_header($day, $month, $year, $area, isset($room) ? $room : null);
+
+echo "<div id=\"dwm_header\" class=\"screenonly\">\n";
+
 // Show all available areas
-echo make_area_select_html('index.php', $area, $year, $month, $day);
-print_view_nav();
+echo make_area_select_html('day.php', $area, $year, $month, $day);
+
+// Draw the three month calendars
+if (!$display_calendar_bottom)
+{
+  minicals($year, $month, $day, $area, $room, 'day');
+}
+
+echo "</div>\n";
 echo get_table($map);
 output_trailer();
