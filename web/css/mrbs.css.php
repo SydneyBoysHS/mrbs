@@ -1455,7 +1455,7 @@ div#check_tabs {background-image: none}
 }
 
 .main_view table td {
-  border-top: 1px solid transparent;
+  border-top: 1px solid <?php echo $body_background_color ?>;
 }
 
 .main_view a {
