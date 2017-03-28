@@ -42,11 +42,11 @@ function generate_trailer()
   {
     $output .= "<div class=\"screenonly trailer\" id=\"simple_trailer\">\n";
     $output .= "<div id=\"simple\">\n";
-    $output .= "<a href=\"day.php?year=$year&amp;month=$month&amp;day=$day$params\">";
+    $output .= "<a href=\"index.php?view=day&amp;year=$year&amp;month=$month&amp;day=$day$params\">";
     $output .= get_vocab("viewday")."</a>|";
-    $output .= "<a href=\"week.php?year=$year&amp;month=$month&amp;day=$day$params\">";
+    $output .= "<a href=\"index.php?view=week&amp;year=$year&amp;month=$month&amp;day=$day$params\">";
     $output .= get_vocab("viewweek")."</a>|";
-    $output .= "<a href=\"month.php?year=$year&amp;month=$month&amp;day=$day$params\">";
+    $output .= "<a href=\"index.php?view=month&amp;year=$year&amp;month=$month&amp;day=$day$params\">";
     $output .= get_vocab("viewmonth")."</a>\n";
     $output .= "</div>\n";
     $output .= "</div>\n";
@@ -58,7 +58,7 @@ function generate_trailer()
     // DAYS
     $output .= "<div id=\"viewday\">\n";
     $output .= "<div class=\"trailer_label\">\n";
-    $output .= "<a href=\"day.php?year=$year&amp;month=$month&amp;day=$day$params\">" . 
+    $output .= "<a href=\"index.php?view=day&amp;year=$year&amp;month=$month&amp;day=$day$params\">" . 
                 get_vocab("viewday") . "</a>\n";
     $output .= "</div>\n";
   
@@ -88,7 +88,7 @@ function generate_trailer()
       }
       else
       {
-        $str = "<a href=\"day.php?year=$cyear&amp;month=$cmonth&amp;day=$cday$params\">" . $str . "</a>";
+        $str = "<a href=\"index.php?view=day&amp;year=$cyear&amp;month=$cmonth&amp;day=$cday$params\">" . $str . "</a>";
       }
     
       // and if it's the current day, add square brackets and set the class
@@ -114,7 +114,7 @@ function generate_trailer()
     // WEEKS
     $output .= "<div id=\"viewweek\">\n";
     $output .= "<div class=\"trailer_label\">\n";
-    $output .= "<a href=\"week.php?year=$year&amp;month=$month&amp;day=$day$params\">" .
+    $output .= "<a href=\"index.php?view=week&amp;year=$year&amp;month=$month&amp;day=$day$params\">" .
                 get_vocab("viewweek") . "</a>\n";
     $output .= "</div>\n";
  
@@ -156,7 +156,7 @@ function generate_trailer()
       {
         $output .= "<span class=\"current\">\n[ ";
       }
-      $output .= "  <a href=\"week.php?year=$hyear&amp;month=$hmonth&amp;day=$hday$params\">$str</a>\n";
+      $output .= "  <a href=\"index.php?view=week&amp;year=$hyear&amp;month=$hmonth&amp;day=$hday$params\">$str</a>\n";
       if ($i == 0)
       {
         $output .= "]</span>\n";
@@ -170,7 +170,7 @@ function generate_trailer()
     // MONTHS
     $output .= "<div id=\"viewmonth\">\n";
     $output .= "<div class=\"trailer_label\">\n";
-    $output .= "<a href=\"month.php?year=$year&amp;month=$month&amp;day=$day$params\">" . 
+    $output .= "<a href=\"index.php?view=month&amp;year=$year&amp;month=$month&amp;day=$day$params\">" . 
                 get_vocab("viewmonth") . "</a>\n";
     $output .= "</div>\n";
   
@@ -197,7 +197,7 @@ function generate_trailer()
       {
         $output .= "<span class=\"current\">\n[ ";
       }
-      $output .= "  <a href=\"month.php?year=$cyear&amp;month=$cmonth&amp;day=$cday$params\">$str</a>\n";
+      $output .= "  <a href=\"index.php?view=month&amp;year=$cyear&amp;month=$cmonth&amp;day=$cday$params\">$str</a>\n";
       if ($i == 0)
       {
         $output .= "]</span>\n";
