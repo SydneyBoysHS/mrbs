@@ -5,31 +5,6 @@ require "defaultincludes.inc";
 require_once "mincals.inc";
 
 
-function print_view_nav()
-{
-  global $area, $year, $month, $day;
-  
-  echo "<nav class=\"view\">\n";
-  
-  $views = array('day', 'week', 'month');
-  
-  foreach ($views as $view)
-  {
-    $params = array('action' => this_page(),
-                    'value'  => $view,
-                    'inputs' => array('view' => $view,
-                                      'area' => $area,
-                                      'year' => $year,
-                                      'month' => $month,
-                                      'day' => $day)
-                   );
-    generate_button($params);
-  }
- 
-  echo "</nav>\n";
-}
-
-
 // Gets the booking interval (start first slot to end last slot)
 // for a given view.   Returns an array indexed by 'start' and 'end'.
 function get_interval($view, $month, $day, $year)
