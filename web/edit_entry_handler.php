@@ -604,7 +604,6 @@ if (empty($returl) ||
   }
 }
 
-
 // If we haven't been given a sensible date then get out of here and don't try and make a booking
 if (!isset($start_day) || !isset($start_month) || !isset($start_year) || !checkdate($start_month, $start_day, $start_year))
 {
