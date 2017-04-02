@@ -1475,7 +1475,11 @@ div#check_tabs {background-image: none}
   box-sizing: border-box;
 }
 
-.main_view_data td:last-child a {
+.main_view_data td:last-child a,
+.main_view_data td.first_part a {
   border-right: 0;
 }
 
+.main_view_data td.continuation a {
+  color: transparent;
+}

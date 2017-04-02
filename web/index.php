@@ -167,7 +167,11 @@ function get_row_data_table($map)
   // up into chunks that they can handle.   For example Firefox will not handle colspans
   // longer than 1000.  See https://bugzilla.mozilla.org/show_bug.cgi?id=321474.  Chrome
   // seems to cope OK, but to keep things simple we'll just chunkify colspans for all
-  // browsers.
+  // browsers.  We assign a class to the first chunk and a different class to subsequent
+  // chunks, so that we can use CSS to make it look as though it's all one booking.  The
+  // only time this won't work perfectly is if the booking name exceeds the size of the
+  // first chunk and so the overflow will be hidden.  But if we keep the chunk size as
+  // large as possible this isn't going to happen very often.
   $max_colspan_size = 1000;
   
   $html = '';
@@ -202,7 +206,7 @@ function get_row_data_table($map)
         {
           // The booking has come to an end, so write it out
           $last_id = null;
-          $html .= get_cell_html($content, $type, $n_slots);
+          $html .= get_cell_html($content, $class, $n_slots);
           prev($row);
         }
         else
@@ -223,6 +227,8 @@ function get_row_data_table($map)
           // Start of a new booking
           $last_id = $this_id;
           $type = $data[0]['type'];
+          $class = $type;
+          $is_continuation = false;
           $content = "<a href=\"\">" . htmlspecialchars($data[0]['name']) . "</a>\n"; // JUST FOR NOW - TO DO
           $n_slots = 1;
         }
@@ -239,7 +245,13 @@ function get_row_data_table($map)
             {
               // The next slot is part of the same booking, so write it out and start
               // a new colspan.
-              $html .= get_cell_html($content, $type, $n_slots);
+              if (!$is_continuation)
+              {
+                $class = "$type first_part";
+              }
+              $html .= get_cell_html($content, $class, $n_slots);
+              $is_continuation = true;
+              $class = "$type continuation";
               $n_slots = 1;
             }
             else
@@ -255,7 +267,7 @@ function get_row_data_table($map)
         {
           // The booking has come to an end, so write it out
           $last_id = null;
-          $html .= get_cell_html($content, $type, $n_slots);
+          $html .= get_cell_html($content, $class, $n_slots);
           prev($row);
         }
       }
@@ -270,7 +282,7 @@ function get_row_data_table($map)
       if (($data === false) && isset($last_id))
       {
         // We're at the end of the row and there's a booking to write out
-        $html .= get_cell_html($content, $type, $n_slots);
+        $html .= get_cell_html($content, $class, $n_slots);
         break;
       }
     }
