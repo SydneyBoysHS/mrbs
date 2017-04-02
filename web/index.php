@@ -163,6 +163,13 @@ function get_row_labels_table($map)
 
 function get_row_data_table($map)
 {
+  // Some browsers cannot handle very large colspans, anmd so we split large colspans
+  // up into chunks that they can handle.   For example Firefox will not handle colspans
+  // longer than 1000.  See https://bugzilla.mozilla.org/show_bug.cgi?id=321474.  Chrome
+  // seems to cope OK, but to keep things simple we'll just chunkify colspans for all
+  // browsers.
+  $max_colspan_size = 1000;
+  
   $html = '';
   
   $html .= "<table class=\"main_view_data\">\n";
@@ -223,6 +230,26 @@ function get_row_data_table($map)
         {
           // Still in the same booking
           $n_slots++;
+          // Check to see whether we've reached the maximum colspan size and whether the next
+          // slot is also part of this booking.  If so, write it out and start a new colspan.
+          if ($n_slots >= $max_colspan_size)
+          {
+            $data = next($row);
+            if (($data !== false) && (count($data) == 1) && ($data[0]['id'] == $this_id))
+            {
+              // The next slot is part of the same booking, so write it out and start
+              // a new colspan.
+              $html .= get_cell_html($content, $type, $n_slots);
+              $n_slots = 1;
+            }
+            else
+            {
+              // It's not part of the same booking, so just go back one slot and the booking will
+              // get written out naturally on the next iteration.
+              prev($row);
+            }
+          
+          }
         }
         else
         {
