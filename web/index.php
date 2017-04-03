@@ -296,6 +296,32 @@ function get_row_data_table($map)
   return $html;
 }
 
+
+function get_grid($map)
+{
+  $html = '';
+  
+  $html .= "<table class=\"grid\">\n";
+  
+  $slots = array_keys(current($map));
+  $n_rooms = count($map);
+
+  for ($i=0; $i<$n_rooms; $i++)
+  {
+    $html .= "<tr>\n";
+    foreach ($slots as $slot)
+    {
+      $html .= "<td><span>&nbsp;</span></td>\n";
+    }
+    $html .= "</tr>\n";
+  }
+  
+  $html .= "</table>\n";
+  
+  return $html;
+}
+
+
 function get_table($map)
 {
   $html = '';
@@ -305,7 +331,7 @@ function get_table($map)
   $html .= "<table class=\"main_view\">\n";
   $html .= "<tr>\n";
   $html .= "<td>" . get_row_labels_table($map) . "</td>\n";
-  $html .= "<td>" . get_row_data_table($map) . " </td>\n";
+  $html .= "<td class=\"data\">" . get_row_data_table($map) . get_grid($map) . " </td>\n";
   $html .= "</tr>\n";
   $html .= "</table>\n";
   

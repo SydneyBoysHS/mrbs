@@ -1433,7 +1433,7 @@ div#check_tabs {background-image: none}
   border-collapse: collapse;
 }
 
-.main_view table td {
+.main_view td {
   padding: 0;
 }
 
@@ -1458,7 +1458,7 @@ div#check_tabs {background-image: none}
   border-top: 1px solid <?php echo $body_background_color ?>;
 }
 
-.main_view a {
+.main_view a, .main_view .grid span {
   display: block;
   width: 100%;
   white-space: nowrap;
@@ -1482,4 +1482,20 @@ div#check_tabs {background-image: none}
 
 .main_view_data td.continuation a {
   color: transparent;
+}
+
+td.data {
+  position: relative;
+}
+
+.grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border: 1px solid red;
+}
+
+.main_view .grid td {
+  border-top-color: transparent;
 }
