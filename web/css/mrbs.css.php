@@ -1437,7 +1437,7 @@ div#check_tabs {background-image: none}
   padding: 0;
 }
 
-.main_view_data {
+.main_view_data, .grid {
   width: 100%;
   table-layout: fixed;
 }
@@ -1461,6 +1461,7 @@ div#check_tabs {background-image: none}
 .main_view a, .main_view .grid span {
   display: block;
   width: 100%;
+  box-sizing: border-box;
   white-space: nowrap;
   padding: 0.1em 0.2em;
 }
@@ -1472,7 +1473,6 @@ div#check_tabs {background-image: none}
 ?>
 .main_view_data a {
   border-right: 1px solid <?php echo $body_background_color ?>;
-  box-sizing: border-box;
 }
 
 .main_view_data td:last-child a,
@@ -1492,10 +1492,28 @@ td.data {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  border: 1px solid red;
 }
 
 .main_view .grid td {
   border-top-color: transparent;
 }
+
+.grid span {
+  border-left: 1px dotted #788d9c;
+}
+
+.week .grid span,
+.month .grid span {
+  border-left-width: 0;
+}
+
+.grid .first_slot_of_day span {
+  border-left: 1px dotted #788d9c;
+}
+
+.grid td:first-child span {
+  border-left-width: 0;
+}
+
+
+

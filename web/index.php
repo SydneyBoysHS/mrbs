@@ -297,21 +297,47 @@ function get_row_data_table($map)
 }
 
 
-function get_grid($map)
+function get_grid($area, $interval)
 {
   $html = '';
   
   $html .= "<table class=\"grid\">\n";
   
-  $slots = array_keys(current($map));
-  $n_rooms = count($map);
+  // First get all the slots in this interval
+  $date = new DateTime();
+  $date->setTimestamp($interval['start']);
+  
+  $days = array();
+  
+  do {
+    $j = $date->format('j');  // day, no leading zero
+    $n = $date->format('n');  // month, no leading zero
+    $Y = $date->format('Y');  // year, four digits
+    
+    $days[] = get_slot_starts($n, $j, $Y);
+    $date->modify('+1 day');
+  } while (get_end_last_slot($n, $j, $Y) < $interval['end']);
 
+  // Get the number of rooms
+  $rooms = get_rooms($area);
+  $n_rooms = count($rooms);
+  
   for ($i=0; $i<$n_rooms; $i++)
   {
     $html .= "<tr>\n";
-    foreach ($slots as $slot)
+    foreach ($days as $day)
     {
-      $html .= "<td><span>&nbsp;</span></td>\n";
+      $first_slot = true;
+      foreach ($day as $slot)
+      {
+        $html .= "<td";
+        if ($first_slot)
+        {
+          $html .= " class=\"first_slot_of_day\"";
+          $first_slot = false;
+        }
+        $html .= "><span>&nbsp;</span></td>\n";
+      }
     }
     $html .= "</tr>\n";
   }
@@ -322,16 +348,16 @@ function get_grid($map)
 }
 
 
-function get_table($map)
+function get_table($map, $area, $interval, $view)
 {
   $html = '';
   
   // We use nested tables so that we can get set the column width exactly for
   // the main data.
-  $html .= "<table class=\"main_view\">\n";
+  $html .= "<table class=\"main_view $view\">\n";
   $html .= "<tr>\n";
   $html .= "<td>" . get_row_labels_table($map) . "</td>\n";
-  $html .= "<td class=\"data\">" . get_row_data_table($map) . get_grid($map) . " </td>\n";
+  $html .= "<td class=\"data\">" . get_row_data_table($map) . get_grid($area, $interval) . " </td>\n";
   $html .= "</tr>\n";
   $html .= "</table>\n";
   
@@ -364,5 +390,5 @@ if (!$display_calendar_bottom)
 }
 
 echo "</div>\n";
-echo get_table($map);
+echo get_table($map, $area, $interval, $view);
 output_trailer();
