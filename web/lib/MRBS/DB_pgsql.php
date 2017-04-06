@@ -62,15 +62,6 @@ class DB_pgsql extends DB
     return $this->dbh->lastInsertId($seq_name);
   }
 
-
-  // Begin a transaction, if the database supports it. This is used to
-  // improve performance for multiple insert/delete/updates.
-  public function begin()
-  {
-    parent::begin();
-    $result = $this->command("BEGIN");
-  }
-
   
   // Acquire a mutual-exclusion lock on the named table. For portability:
   // This will not lock out SELECTs.
@@ -88,7 +79,11 @@ class DB_pgsql extends DB
   {
     try
     {
-      $this->command("BEGIN");
+      // LOCK TABLE can only be used in transaction blocks
+      if (!$this->dbh->inTransaction())
+      {
+        $this->begin();
+      }
       $this->command("LOCK TABLE $name IN EXCLUSIVE MODE");
     }
     catch (DBException $e)
@@ -107,7 +102,10 @@ class DB_pgsql extends DB
   // is no other way.
   public function mutex_unlock($name)
   {
-    $this->command("COMMIT");
+    if ($this->dbh->inTransaction())
+    {
+      $this->commit();
+    }
     $this->mutex_lock_name = NULL;
   }
 

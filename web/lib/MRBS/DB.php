@@ -37,7 +37,15 @@ class DB
     // Establish a database connection.
     try
     {
-      $this->dbh = new PDO(static::DB_DBO_DRIVER.":host=$db_host;port=$db_port;dbname=$db_name",
+      if (!isset($db_host) || ($db_host == ""))
+      {
+        $hostpart = "";
+      }
+      else
+      {
+        $hostpart = "host=$db_host;";
+      }
+      $this->dbh = new PDO(static::DB_DBO_DRIVER.":${hostpart}port=$db_port;dbname=$db_name",
                            $db_username,
                            $db_password,
                            array(PDO::ATTR_PERSISTENT => ($persist ? true : false),
@@ -181,22 +189,25 @@ class DB
   //  
   public function begin()
   {
-    // This method must be extended by the sub-classes, which must call the parent as the
-    // first thing they do.   It only exists here in the parent class in order that all the
-    // calls to mrbs_ignore_user_abort() are grouped together.
-    
     // Turn off ignore_user_abort until the transaction has been committed or rolled back.
     // See the warning at http://php.net/manual/en/features.persistent-connections.php
     // (Only applies to persistent connections, but we'll do it for all cases to keep
     // things simple)
     mrbs_ignore_user_abort(TRUE);
+    if (!$this->dbh->inTransaction())
+    {
+      $this->dbh->beginTransaction();
+    }
   }
   
   
   // Commit (end) a transaction. See begin().
   public function commit()
   {
-    $result = $this->command("COMMIT");
+    if ($this->dbh->inTransaction())
+    {
+      $this->dbh->commit();
+    }
     mrbs_ignore_user_abort(FALSE);
   }
 
@@ -204,8 +215,18 @@ class DB
   // Roll back a transaction, aborting it. See begin().
   public function rollback()
   {
-    $result = $this->command("ROLLBACK", array());
+    if ($this->dbh->inTransaction())
+    {
+      $this->dbh->rollBack();
+    }
     mrbs_ignore_user_abort(FALSE);
+  }
+  
+  
+  // Checks if inside a transaction
+  public function inTransaction()
+  {
+    return $this->dbh->inTransaction();
   }
 
 
