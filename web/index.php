@@ -318,29 +318,22 @@ function get_grid($area, $interval)
     $date->modify('+1 day');
   } while (get_end_last_slot($n, $j, $Y) < $interval['end']);
 
-  // Get the number of rooms
-  $rooms = get_rooms($area);
-  $n_rooms = count($rooms);
-  
-  for ($i=0; $i<$n_rooms; $i++)
+  $html .= "<tr>\n";
+  foreach ($days as $day)
   {
-    $html .= "<tr>\n";
-    foreach ($days as $day)
+    $first_slot = true;
+    foreach ($day as $slot)
     {
-      $first_slot = true;
-      foreach ($day as $slot)
+      $html .= "<td";
+      if ($first_slot)
       {
-        $html .= "<td";
-        if ($first_slot)
-        {
-          $html .= " class=\"first_slot_of_day\"";
-          $first_slot = false;
-        }
-        $html .= "><span>&nbsp;</span></td>\n";
+        $html .= " class=\"first_slot_of_day\"";
+        $first_slot = false;
       }
+      $html .= "><span>&nbsp;</span></td>\n";
     }
-    $html .= "</tr>\n";
   }
+  $html .= "</tr>\n";
   
   $html .= "</table>\n";
   

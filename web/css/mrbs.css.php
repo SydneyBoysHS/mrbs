@@ -1486,19 +1486,24 @@ div#check_tabs {background-image: none}
 
 td.data {
   position: relative;
+  height: 100%;
 }
 
 .grid {
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
 }
 
 .main_view .grid td {
   border-top-color: transparent;
+  height: 100%;
 }
 
 .grid span {
+  height: 100%;
+  line-height: 100vh;
   border-left: 1px dotted #788d9c;
 }
 
