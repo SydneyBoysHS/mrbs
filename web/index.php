@@ -350,7 +350,7 @@ function get_table($map, $area, $interval, $view)
   $html .= "<table class=\"main_view $view\">\n";
   $html .= "<tr>\n";
   $html .= "<td>" . get_row_labels_table($map) . "</td>\n";
-  $html .= "<td class=\"data\">" . get_row_data_table($map) . get_grid($area, $interval) . " </td>\n";
+  $html .= "<td class=\"data\">" . get_grid($area, $interval) . get_row_data_table($map) . " </td>\n";
   $html .= "</tr>\n";
   $html .= "</table>\n";
   
