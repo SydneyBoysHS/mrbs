@@ -447,10 +447,8 @@ var FloatingHeader = {
         $(this).width(originalCells.eq(i).width())
                .height(originalCells.eq(i).height());
     });
-  },
 
-  <?php // Clip the floating header to the same width as the original header ?>
-  clip: function() {
+    <?php // Clip the floating header to the same width as the original header ?>
     var clip = FloatingHeader.original.outerWidth() - FloatingHeader.original.parent().parent().outerWidth();
     FloatingHeader.floating.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
   },
@@ -529,11 +527,18 @@ $(document).on('page_ready', function() {
       ?>
 
       FloatingHeader.createOrUpdate();
-      FloatingHeader.clip();
 
       $(window).on('scroll', function() {
           FloatingHeader.toggle();
         });
+
+      $(window).on('resize', function() {
+        FloatingHeader.createOrUpdate();
+      });
+
+      $('.table_container').on('scroll', function() {
+
+      });
 
     }).trigger('tableload');
 
