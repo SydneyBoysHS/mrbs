@@ -472,6 +472,42 @@ $(document).on('page_ready', function() {
       }
       ?>
 
+      <?php
+      // Create a floating header
+      ?>
+      var originalHeader = $(this).find('thead');
+      var floatingHeader = originalHeader.clone().addClass('floating_header').prependTo($(this));
+      originalHeader.addClass('original_header');
+
+      <?php
+      // Make the floating header the same width as the original header and make all its cells the
+      // same height and width as the original cells.
+      ?>
+      floatingHeader.width(originalHeader.width());
+      var originalHeaderCells = originalHeader.find('th');
+      floatingHeader.find('th').each(function(i) {
+          $(this).width(originalHeaderCells.eq(i).width())
+                 .height(originalHeaderCells.eq(i).height());
+        });
+
+      <?php // Clip the floating header to the same width as the original header ?>
+      var clip = originalHeader.outerWidth() - originalHeader.parent().parent().outerWidth();
+      floatingHeader.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
+
+      $(window).scroll(function() {
+          var floatingHeader = $('.floating_header');
+          var originalHeader = $('.original_header');
+
+          if (originalHeader[0].getBoundingClientRect().top < 0)
+          {
+            floatingHeader.show();
+          }
+          else
+          {
+            floatingHeader.hide();
+          }
+        });
+
     }).trigger('tableload');
 
 });

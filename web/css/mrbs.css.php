@@ -1111,6 +1111,12 @@ foreach ($color_types as $type => $col)
   background-color: <?php echo $main_table_slot_private_type_color;?>;
 }
 
+.floating_header {
+  position: fixed;
+  top: 0;
+  z-index: 700;
+}
+
 .dwm_main th:first-child {
   position: -webkit-sticky;
   position: sticky;
