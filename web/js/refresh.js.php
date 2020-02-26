@@ -494,7 +494,7 @@ $(document).on('page_ready', function() {
       var clip = originalHeader.outerWidth() - originalHeader.parent().parent().outerWidth();
       floatingHeader.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
 
-      $(window).scroll(function() {
+      $(window).on('scroll', function() {
           var floatingHeader = $('.floating_header');
           var originalHeader = $('.original_header');
 
