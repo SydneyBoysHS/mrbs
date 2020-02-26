@@ -418,6 +418,62 @@ var Timeline = {
 };
 
 
+var FloatingHeader = {
+
+  floating: null,
+  original: null,
+  tbody: null,
+
+  createOrUpdate: function() {
+    <?php // Create a floating header if one doesn't already exist ?>
+    if (FloatingHeader.floating === null)
+    {
+      FloatingHeader.original = $('.dwm_main').find('thead');
+      FloatingHeader.floating = FloatingHeader.original
+                                  .clone()
+                                  .addClass('floating_header')
+                                  .insertBefore(FloatingHeader.original);
+      FloatingHeader.original.addClass('original_header');
+      FloatingHeader.tbody = $('.dwm_main tbody');
+    }
+
+    <?php
+    // Make the floating header the same width as the original header and make all its cells the
+    // same height and width as the original cells.
+    ?>
+    FloatingHeader.floating.width(FloatingHeader.original.width());
+    var originalCells = FloatingHeader.original.find('th');
+    FloatingHeader.floating.find('th').each(function(i) {
+        $(this).width(originalCells.eq(i).width())
+               .height(originalCells.eq(i).height());
+    });
+  },
+
+  <?php // Clip the floating header to the same width as the original header ?>
+  clip: function() {
+    var clip = FloatingHeader.original.outerWidth() - FloatingHeader.original.parent().parent().outerWidth();
+    FloatingHeader.floating.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
+  },
+
+  toggle: function() {
+    <?php
+    // If the original header has scrolled off the top of the window, then show the floating header.
+    // But once the bottom of the table starts hitting the bottom of the floating header then start
+    // scrolling the floating header upwards by adjusting its top position.
+    ?>
+    if (FloatingHeader.original[0].getBoundingClientRect().top < 0)
+    {
+      var tbodyRect = FloatingHeader.tbody[0].getBoundingClientRect();
+      var floatingHeaderTop = Math.min(0, tbodyRect.bottom - FloatingHeader.floating.outerHeight());
+      FloatingHeader.floating.css('top', floatingHeaderTop + 'px').show();
+    }
+    else
+    {
+      FloatingHeader.floating.hide();
+    }
+  }
+};
+
 $(document).on('page_ready', function() {
 
   <?php
@@ -472,47 +528,11 @@ $(document).on('page_ready', function() {
       }
       ?>
 
-      <?php
-      // Create a floating header
-      ?>
-      var originalHeader = $(this).find('thead');
-      var floatingHeader = originalHeader.clone().addClass('floating_header').prependTo($(this));
-      originalHeader.addClass('original_header');
-
-      <?php
-      // Make the floating header the same width as the original header and make all its cells the
-      // same height and width as the original cells.
-      ?>
-      floatingHeader.width(originalHeader.width());
-      var originalHeaderCells = originalHeader.find('th');
-      floatingHeader.find('th').each(function(i) {
-          $(this).width(originalHeaderCells.eq(i).width())
-                 .height(originalHeaderCells.eq(i).height());
-        });
-
-      <?php // Clip the floating header to the same width as the original header ?>
-      var clip = originalHeader.outerWidth() - originalHeader.parent().parent().outerWidth();
-      floatingHeader.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
+      FloatingHeader.createOrUpdate();
+      FloatingHeader.clip();
 
       $(window).on('scroll', function() {
-          var floatingHeader = $('.floating_header');
-          var originalHeader = $('.original_header');
-
-          <?php
-          // If the original header has scrolled off the top of the window, then show the floating header.
-          // But once the bottom of the table starts hitting the bottom of the floating header then start
-          // scrolling the floating header upwards by adjusting its top position.
-          ?>
-          if (originalHeader[0].getBoundingClientRect().top < 0)
-          {
-            var tbodyRect = $('.dwm_main tbody')[0].getBoundingClientRect();
-            var floatingHeaderTop = Math.min(0, tbodyRect.bottom - floatingHeader.outerHeight());
-            floatingHeader.css('top', floatingHeaderTop + 'px').show();
-          }
-          else
-          {
-            floatingHeader.hide();
-          }
+          FloatingHeader.toggle();
         });
 
     }).trigger('tableload');
