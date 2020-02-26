@@ -423,6 +423,9 @@ var FloatingHeader = {
   floating: null,
   original: null,
   tbody: null,
+  originLeft: null,
+  clipLeft: null,
+  clipRight: null,
 
   createOrUpdate: function() {
     <?php // Create a floating header if one doesn't already exist ?>
@@ -437,6 +440,10 @@ var FloatingHeader = {
       FloatingHeader.tbody = $('.dwm_main tbody');
     }
 
+    FloatingHeader.originLeft = FloatingHeader.floating.offset().left;
+    FloatingHeader.clipRight = FloatingHeader.original.outerWidth() - FloatingHeader.original.parent().parent().outerWidth();
+    FloatingHeader.clipLeft = 0;
+
     <?php
     // Make the floating header the same width as the original header and make all its cells the
     // same height and width as the original cells.
@@ -449,8 +456,16 @@ var FloatingHeader = {
     });
 
     <?php // Clip the floating header to the same width as the original header ?>
-    var clip = FloatingHeader.original.outerWidth() - FloatingHeader.original.parent().parent().outerWidth();
-    FloatingHeader.floating.css('clip-path', 'inset(0 ' + clip + 'px 0 0');
+    FloatingHeader.clip(FloatingHeader.clipLeft, FloatingHeader.clipRight);
+  },
+
+  clip: function(left, right) {
+    FloatingHeader.floating.css('clip-path', 'inset(0 ' + right + 'px 0 ' + left + 'px)');
+  },
+
+  scroll: function(scrollLeft) {
+    FloatingHeader.floating.css('left', FloatingHeader.originLeft - scrollLeft + 'px');
+    FloatingHeader.clip(FloatingHeader.clipLeft + scrollLeft, FloatingHeader.clipRight - scrollLeft);
   },
 
   toggle: function() {
@@ -537,7 +552,7 @@ $(document).on('page_ready', function() {
       });
 
       $('.table_container').on('scroll', function() {
-
+        FloatingHeader.scroll($(this).scrollLeft());
       });
 
     }).trigger('tableload');
