@@ -498,9 +498,16 @@ $(document).on('page_ready', function() {
           var floatingHeader = $('.floating_header');
           var originalHeader = $('.original_header');
 
+          <?php
+          // If the original header has scrolled off the top of the window, then show the floating header.
+          // But once the bottom of the table starts hitting the bottom of the floating header then start
+          // scrolling the floating header upwards by adjusting its top position.
+          ?>
           if (originalHeader[0].getBoundingClientRect().top < 0)
           {
-            floatingHeader.show();
+            var tbodyRect = $('.dwm_main tbody')[0].getBoundingClientRect();
+            var floatingHeaderTop = Math.min(0, tbodyRect.bottom - floatingHeader.outerHeight());
+            floatingHeader.css('top', floatingHeaderTop + 'px').show();
           }
           else
           {
