@@ -450,7 +450,7 @@ var FloatingHeader = {
       FloatingHeader.tbody = $('.dwm_main tbody');
     }
 
-    FloatingHeader.originLeft = FloatingHeader.floating.offset().left;
+    FloatingHeader.originLeft = FloatingHeader.original.offset().left;
     FloatingHeader.clipRight = FloatingHeader.original.outerWidth() - FloatingHeader.original.parent().parent().outerWidth();
     FloatingHeader.clipLeft = 0;
 
