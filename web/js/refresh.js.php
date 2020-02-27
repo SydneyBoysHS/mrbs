@@ -426,6 +426,16 @@ var FloatingHeader = {
   originLeft: null,
   clipLeft: null,
   clipRight: null,
+  scrollLeft: 0,
+
+  clear: function() {
+    FloatingHeader.floating = null;
+    FloatingHeader.original = null;
+    FloatingHeader.tbody = null;
+    FloatingHeader.originLeft = null;
+    FloatingHeader.clipLeft = null;
+    FloatingHeader.clipRight = null;
+  },
 
   createOrUpdate: function() {
     <?php // Create a floating header if one doesn't already exist ?>
@@ -456,16 +466,22 @@ var FloatingHeader = {
     });
 
     <?php // Clip the floating header to the same width as the original header ?>
-    FloatingHeader.clip(FloatingHeader.clipLeft, FloatingHeader.clipRight);
+    FloatingHeader.clip();
+
+    <?php // And show/hide the floating header ?>
+    FloatingHeader.toggle();
   },
 
   clip: function(left, right) {
+    var left = FloatingHeader.clipLeft + FloatingHeader.scrollLeft;
+    var right = FloatingHeader.clipRight - FloatingHeader.scrollLeft;
     FloatingHeader.floating.css('clip-path', 'inset(0 ' + right + 'px 0 ' + left + 'px)');
   },
 
   scroll: function(scrollLeft) {
+    FloatingHeader.scrollLeft = scrollLeft;
     FloatingHeader.floating.css('left', FloatingHeader.originLeft - scrollLeft + 'px');
-    FloatingHeader.clip(FloatingHeader.clipLeft + scrollLeft, FloatingHeader.clipRight - scrollLeft);
+    FloatingHeader.clip();
   },
 
   toggle: function() {
