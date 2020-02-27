@@ -559,19 +559,33 @@ $(document).on('page_ready', function() {
       }
       ?>
 
-      FloatingHeader.createOrUpdate();
+      if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
+      {
+        $(window).on('scroll', function () {
+          var table = $('.dwm_main');
+          var thead = table.find('thead');
+          var tableTop = table[0].getBoundingClientRect().top;
+          if (tableTop < 0) {
+            thead.css('top', -tableTop + 'px');
+          }
+        });
+      }
+      else
+      {
+        FloatingHeader.createOrUpdate();
 
-      $(window).on('scroll', function() {
+        $(window).on('scroll', function () {
           FloatingHeader.toggle();
         });
 
-      $(window).on('resize', function() {
-        FloatingHeader.createOrUpdate();
-      });
+        $(window).on('resize', function () {
+          FloatingHeader.createOrUpdate();
+        });
 
-      $('.table_container').on('scroll', function() {
-        FloatingHeader.scroll($(this).scrollLeft());
-      });
+        $('.table_container').on('scroll', function () {
+          FloatingHeader.scroll($(this).scrollLeft());
+        });
+      }
 
     }).trigger('tableload');
 
