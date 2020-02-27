@@ -505,6 +505,51 @@ var FloatingHeader = {
   }
 };
 
+
+<?php // Create a sticky header for the main table ?>
+function createStickyHeader() {
+  <?php
+  // The easiest way of doing this is to give the <thead> a relative position and then just change the
+  // top depending on the window scroll position.  However at the moment a thead with a relative position
+  // only seems to be supported by Firefox.
+  // (Testing the userAgent string isn't the best way of detecting Firefox, but I can't think of a feature
+  // detection test that will test for support of relative position on table elements - unless maybe we
+  // create a test dom element, give it a relative position and try and move it.)
+  ?>
+  if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
+  {
+    $(window).on('scroll', function () {
+      var table = $('.dwm_main');
+      var thead = table.find('thead');
+      var tableTop = table[0].getBoundingClientRect().top;
+      if (tableTop < 0) {
+        thead.css('top', -tableTop + 'px');
+      }
+    });
+  }
+  else
+  <?php
+  // For other browsers we clone the <thead>, position it at the top of the viewport and then hide or
+  // show it as necessary.  We also have to handle window resizing and scrolling of the table container.
+  ?>
+  {
+    FloatingHeader.createOrUpdate();
+
+    $(window).on('scroll', function () {
+      FloatingHeader.toggle();
+    });
+
+    $(window).on('resize', function () {
+      FloatingHeader.createOrUpdate();
+    });
+
+    $('.table_container').on('scroll', function () {
+      FloatingHeader.scroll($(this).scrollLeft());
+    });
+  }
+}
+
+
 $(document).on('page_ready', function() {
 
   <?php
@@ -559,33 +604,7 @@ $(document).on('page_ready', function() {
       }
       ?>
 
-      if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
-      {
-        $(window).on('scroll', function () {
-          var table = $('.dwm_main');
-          var thead = table.find('thead');
-          var tableTop = table[0].getBoundingClientRect().top;
-          if (tableTop < 0) {
-            thead.css('top', -tableTop + 'px');
-          }
-        });
-      }
-      else
-      {
-        FloatingHeader.createOrUpdate();
-
-        $(window).on('scroll', function () {
-          FloatingHeader.toggle();
-        });
-
-        $(window).on('resize', function () {
-          FloatingHeader.createOrUpdate();
-        });
-
-        $('.table_container').on('scroll', function () {
-          FloatingHeader.scroll($(this).scrollLeft());
-        });
-      }
+      createStickyHeader();
 
     }).trigger('tableload');
 

@@ -1116,7 +1116,6 @@ foreach ($color_types as $type => $col)
   z-index: 700;
 }
 
-
 .dwm_main thead.floating_header {
   position: fixed;
   top: 0;
