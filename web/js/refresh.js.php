@@ -19,6 +19,24 @@ var refreshListenerAdded = false;
 
 var intervalId;
 
+
+<?php // Tests whether the browser supports "position: relative" on a <thead> element ?>
+function supportsPositionRelativeOnThead() {
+  <?php // Create a test table, change the value of "top" for the <thead> and see if it moves ?>
+  var testTable = $('<table style="position: absolute; visibility: hidden"></table>');
+  var thead = $('<thead style="position: relative"><tr><th>Test</th></tr></thead>');
+  testTable.append(thead);
+  $('body').append(testTable);
+  var shift = 1;
+  var originalTop = thead.position().top;
+  thead.css('top', shift + 'px');
+  var actualShift = thead.position().top - originalTop;
+  testTable.remove();
+  return (actualShift == shift);
+}
+
+
+
 <?php
 // Make the columns in the calendar views of equal size.   We can't use an inline style,
 // because this would cause an error on those servers that have a Content Security Policy of
@@ -512,11 +530,8 @@ function createStickyHeader() {
   // The easiest way of doing this is to give the <thead> a relative position and then just change the
   // top depending on the window scroll position.  However at the moment a thead with a relative position
   // only seems to be supported by Firefox.
-  // (Testing the userAgent string isn't the best way of detecting Firefox, but I can't think of a feature
-  // detection test that will test for support of relative position on table elements - unless maybe we
-  // create a test dom element, give it a relative position and try and move it.)
   ?>
-  if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
+  if (supportsPositionRelativeOnThead())
   {
     $(window).on('scroll', function () {
       var table = $('.dwm_main');
