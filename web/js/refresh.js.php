@@ -489,16 +489,18 @@ var FloatingHeader = {
     // If the original header has scrolled off the top of the window, then show the floating header.
     // But once the bottom of the table starts hitting the bottom of the floating header then start
     // scrolling the floating header upwards by adjusting its top position.
+    // (We show and hide by changing the opacity rather than the visibility because when we use visibility
+    // it seems to change the position of the sticky cells.)
     ?>
     if (FloatingHeader.original[0].getBoundingClientRect().top < 0)
     {
       var tbodyRect = FloatingHeader.tbody[0].getBoundingClientRect();
       var floatingHeaderTop = Math.min(0, tbodyRect.bottom - FloatingHeader.floating.outerHeight());
-      FloatingHeader.floating.css('top', floatingHeaderTop + 'px').show();
+      FloatingHeader.floating.css('top', floatingHeaderTop + 'px').css('opacity', '1');
     }
     else
     {
-      FloatingHeader.floating.hide();
+      FloatingHeader.floating.css('opacity', '0');
     }
   }
 };
